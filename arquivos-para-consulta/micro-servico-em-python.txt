@@ -1,0 +1,65 @@
+A variável de ambiente no caso da minha api, vai depender de como eu estou chamando ela dentro do meu código e como o pacote que eu 
+instalei para conversar com as aplicações usa estes valores. O que diferencia das variáveis das imagens que baixamos do docker ou de 
+alguma aplicação são as variáveis que eles aceitam, mas no caso da minha aplicação vai depender de como eu chamo ela dentro do meu 
+código. Nesse caso é pessoal, não um padrão.
+
+O owncload está rodando no localhost sem porta e não é muito recomendado porque se tiver qualquer serviço que roda na porta padrão 
+80 pode haver conflito. Nas configurações do owncload não está sendo usado a porta. Eu preciso colocar o Owncload na porta 8080 e 
+inserir a porta na URI. 
+
+Pesqusar por:
+Conceito de Microsserviço
+Model, View e Conroller
+Kafka e Redis
+Colocar o micro-serviço dentro do docker para usar em produção
+
+Criar um microsserviço separado de toda a aplicação, em Python com Pandas para higienizar e enriquecer o arquivo.
+Para realizar enriquecimento de dados, higienização e geração de relatórios de arquivos CSV dentro da nossa aplicação Node.js 
+integrada com o ownCloud, nós vamos utilizar o Pandas (Python) dentro de um serviço separado e se comunicar via fila de mensagens 
+(RabbitMQ, por exemplo).
+
+Preparar o ambiente de produção e instalar as dependências para o Python e Pandas. 
+
+a)A API Node vai enviar os dados para a fila do RabbitMQ. A API vai enviar uma mensagem para o RabbitMQ informando os dados do 
+arquivo que é para trabalhar. Vai colocar na fila;
+b)O RabbitMQ recebe os dados do arquivo para tratamento e o pyService tem de estar conectado no RabbitMQ escutando uma das filas;
+c)Em seguida o RabbitMQ se comunica com o pyService(aplicação em Python com Pandas) e passa os dados do arquivo para tratamento;
+d)O pyService vai buscar o arquivo no diretório work do Owncloud;
+e)O pyService vai consultar o banco de dados externo uneel_unicomsi do mongoDB e a collection nova_credlinks para fazer o 
+enrequecimento dos dados no arquivo. O pyService vai fazer também a higienização do arquivo. Só lembrando que este banco está em 
+produção, então temos que ter muito cuidado para não apagar ou subscrever alguma coisa. Vamos usar somente para consulta;
+f)A consulta no mongo DB vai ser através do CPF e telefone;
+g)O pyService envia um arquivo zipado com o arquivo de dados enriquecido e higienizado em csv e o relatório em PDF do que foi feito 
+no arquivo para o diretório finalizado do Owncloud;
+h)O arquivo deve ser enviado em xlsx
+
+Passos para Implementação:
+
+1. Fluxo Geral do Processo
+Upload do CSV no ownCloud via aplicação Node.js.
+Leitura do CSV pela aplicação Node.js, que envia o arquivo para processamento.
+Higienização e Enriquecimento do CSV usando Pandas em um microserviço Python.
+Geração de Relatórios no formato CSV ou PDF.
+Retorno do arquivo processado para o ownCloud.
+Disponibilização do link do arquivo final para download.
+
+2. Configuração do Serviço Node.js
+O serviço Node.js será responsável por:
+Enviar o CSV para processamento via fila (RabbitMQ) ou chamada HTTP para um microserviço Python.
+Baixar o CSV do ownCloud e enviá-lo ao serviço Python.
+Receber o CSV processado e armazená-lo novamente no ownCloud.
+
+3. Microserviço Python com Pandas
+Este serviço Python irá:
+Ler o CSV recebido
+Realizar higienização dos dados (remoção de duplicatas, correção de formatos, normalização)
+Enriquecer os dados (consultar APIs externas ou banco de dados)
+Gerar um relatório em CSV ou PDF
+Retornar o arquivo tratado
+
+Conclusão:
+Com essa estrutura, você consegue: 
+Fazer higienização e enriquecimento do CSV usando Pandas
+Criar relatórios com estatísticas
+Automatizar o processo usando Node.js + Python
+Armazenar e gerenciar arquivos no ownCloud
