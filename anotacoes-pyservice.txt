@@ -1,0 +1,58 @@
+Para criar a rede pyservice_default para que os containers possam se comunicar, siga estes passos:
+
+Criar a rede antes de subir os containers:
+
+No terminal linux ou WLS2(Windows), execute:
+docker network create pyservice_default
+
+Isso cria uma rede Docker externa chamada pyservice_default. Como o docker-compose.yml está configurado para usar essa rede, os 
+serviços (pyservice, redis, rabbitMQ, etc.) conseguirão se comunicar sem problemas.
+
+Verificar se a rede foi criada:
+
+Depois de criar a rede, você pode listar as redes disponíveis com:
+docker network ls
+
+Se a rede pyservice_default aparecer na lista, significa que foi criada corretamente.
+
+Subir os containers:
+
+Agora basta rodar:
+docker-compose up -d
+
+Isso vai criar e iniciar os containers usando a rede pyservice_default.
+
+Com essa configuração, seu pyservice, redis e outros serviços podem se comunicar facilmente dentro do mesmo ambiente de rede Docker. 
+
+Para listar todos os containers:
+docker ps
+
+Remover uma rede específica:
+Isso exibirá todas as redes disponíveis, com um ID e um nome.
+docker network ls
+docker network rm NOME_DA_REDE
+
+Verifica se algum container está usando uma rede em específico:
+docker network inspect NOME_DA_REDE
+
+Reiniciar os containers aplicando as alterações do Dockerfile ou docker-compose.
+docker-compose down && docker-compose up --build -d
+
+O que cada parte faz:
+
+a)docker-compose down -v
+Para e remove os containers, redes e volumes (não os volumes nomeados, se declarados no docker-compose.yml).
+
+b)docker-compose up --build -d
+--build: força a reconstrução da imagem com base no novo Dockerfile.
+-d: executa os containers em modo "detached" (em segundo plano).
+
+Use esse comando sempre que:
+1)Alterar o Dockerfile.
+2)Alterar variáveis no .env.
+3)Mudar a estrutura do código copiado com COPY no Dockerfile.
+4)Mudar volumes ou serviços no docker-compose.yml.
+
+Para visualizar os logs do piservice digite o comando:
+docker logs -f pyservice
+
