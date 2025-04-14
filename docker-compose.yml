@@ -1,0 +1,75 @@
+# version: "3.8"
+# Define a versão do Docker Compose. A 3.8 é estável e compatível com recursos modernos.
+
+services:
+  pyservice:
+    build: .
+    # Cria a imagem a partir do Dockerfile presente no diretório atual.
+
+    container_name: pyservice
+    # Define o nome do container como 'pyservice', útil para logs e comandos Docker.
+
+    env_file: .env
+    # Carrega variáveis de ambiente a partir do arquivo .env na raiz do projeto.
+
+    depends_on:
+      redis:
+        condition: service_healthy
+        # Aguarda o Redis estar saudável (responder ao healthcheck) antes de iniciar.
+
+    restart: always
+    # Garante que o serviço será reiniciado automaticamente em caso de falhas.
+
+    networks:
+      - pyservice_default
+      # Conecta o container à rede 'pyservice_default', permitindo comunicação com outros serviços.
+
+    volumes:
+      - pyservice_data:/app/data
+      # Cria um volume persistente no diretório /app/data para armazenar dados processados ou gerados.
+
+      - .:/app
+      # Monta todo o código-fonte local no container, facilitando desenvolvimento com hot-reload.
+      # ⚠️ CUIDADO: em produção, isso pode sobrescrever o que está no container. Use com atenção.
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      # Permite que o container acesse serviços do host via 'host.docker.internal', útil para debug e conexões externas.
+
+  redis:
+    image: "redis:latest"
+    # Usa a imagem oficial mais recente do Redis como serviço de fila/cache.
+
+    container_name: redis
+    # Nome do container Redis.
+
+    ports:
+      - "6379:6379"
+      # Expõe a porta padrão do Redis para o host. Recomendado apenas em desenvolvimento.
+
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      # Comando que verifica se o Redis está ativo e respondendo.
+
+      interval: 5s
+      # Verifica a saúde a cada 5 segundos.
+
+      retries: 5
+      # Tenta 5 vezes antes de considerar o container como unhealthy.
+
+      timeout: 3s
+      # Cada tentativa de healthcheck tem tempo limite de 3 segundos.
+
+    networks:
+      - pyservice_default
+      # Conecta o Redis à mesma rede do pyservice, permitindo comunicação interna.
+
+volumes:
+  pyservice_data:
+    # Volume nomeado utilizado para armazenar dados persistentes do serviço pyservice.
+
+networks:
+  pyservice_default:
+    external: true
+    # Usa uma rede Docker externa já existente chamada pyservice_default.
+    # Ideal para integrar múltiplos serviços, como RabbitMQ, MongoDB, etc.
