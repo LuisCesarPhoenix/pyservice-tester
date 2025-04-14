@@ -1,0 +1,18 @@
+# Esse arquivo contém todas as dependências do pyService.
+
+pika
+pandas
+pymongo
+matplotlib
+requests
+pyocclient
+openpyxl
+reportlab
+python-dotenv
+fpdf
+pydantic
+pydantic-settings
+pydantic-redis
+
+# Instale as dependências na pasta do projeto: 
+# /mnt/c/users/cesar/pyService$ pip install -r requirements.txt
