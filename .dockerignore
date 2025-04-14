@@ -1,0 +1,30 @@
+# Ignora repositórios e IDEs
+.git
+.gitignore
+.vscode/
+.idea/
+
+# Ignora arquivos de sistema
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignora arquivos temporários e backups
+*.log
+*.bak
+*.swp
+*.tmp
+
+# Ignora arquivos de ambiente local
+.env
+.env.*
+
+# Ignora arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Outros arquivos que não precisam estar no container
+docker-compose.yml
+Dockerfile
+README.md
