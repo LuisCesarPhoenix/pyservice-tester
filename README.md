@@ -42,6 +42,21 @@ pyService/
 │   ├── finalizado/                 # Arquivos processados
 ├──
 
+🧭 Fluxo Completo:
+
+1.	🌐 API (Node.js):
+	a.	Recebe uma requisição para processar um arquivo.
+	b.	Envia uma mensagem para o RabbitMQ com os  metadados ou caminho do arquivo.
+2.	📬 RabbitMQ:
+	a.	Escuta a fila (pyservice_queue).
+	b.	Entrega a mensagem para o pyService.
+3.	🧠 pyService (Python):
+	Ao receber a mensagem:
+		a.	Acessa o OwnCloud e pega o arquivo a ser tratado (do diretório /work/).
+		b.	Higieniza e enriquece os dados:
+			i.	Conecta no MongoDB remoto e busca/completa os dados.
+		c.	Salva o arquivo finalizado no OwnCloud (diretório /finalizado/).
+		d.	Envia uma mensagem de status para o Strapi, avisando que o processo foi concluído.
 
 Visão Geral Detalhada:
 
@@ -325,9 +340,10 @@ CMD ["python", "main.py"]
 
 4.3 Criando e Subindo os Containers
 a)Execute:
-i)docker network create pyservice_default  # Cria a rede necessária
-ii)docker-compose up -d                     # Sobe os containers em segundo plano
-
+i)docker network create pyservice_default  
+	# Cria a rede necessária
+ii)docker-compose down -v && docker-compose up --build -d
+	# Isso remove volumes antigos, redes e containers e reconstrói tudo do zero.
 b)Para verificar os logs:
 docker logs -f pyservice
 
@@ -643,6 +659,14 @@ v)O enriquecimento é feito antes da geração de relatórios.
 client = pymongo.MongoClient(MONGO_URL)
 db = client["uneel_unicomsi"]
 collection = db["nova_credlinks"]
+
+Se o MongoDB estiver rodando fora do Docker, então seu MONGO_URI deve ser:
+MONGO_URI=mongodb://host.docker.internal:27017
+Isso funciona no Docker Desktop no Windows/macOS.
+
+MONGO_URI=mongodb://host.docker.internal:27017
+host.docker.internal é um alias padrão que o Docker Desktop fornece para acessar o host (o Windows ou o WSL2) de dentro de um 
+container.
 
 
 19. Integração com a API (Node.js)
