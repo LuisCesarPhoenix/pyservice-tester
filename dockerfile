@@ -1,4 +1,4 @@
-# Usa uma imagem leve do Python 3.9
+# Usa uma imagem leve do Python 3.10
 FROM python:3.10-slim
 
 # Define o diretório de trabalho dentro do container
