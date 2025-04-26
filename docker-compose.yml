@@ -30,7 +30,7 @@ services:
 
       - .:/app
       # Monta todo o código-fonte local no container, facilitando desenvolvimento com hot-reload.
-      # ⚠️ CUIDADO: em produção, isso pode sobrescrever o que está no container. Use com atenção.
+      # CUIDADO: em produção, isso pode sobrescrever o que está no container. Use com atenção.
 
     extra_hosts:
       - "host.docker.internal:host-gateway"
