@@ -40,3 +40,6 @@ storage/
 *.csv
 *.xlsx
 *.pdf
+
+# .zip file
+pyservice-main.zip
