@@ -314,13 +314,13 @@ networks:
     # Usa a rede externa pyservice_default para permitir a comunicação com RabbitMQ, MongoDB, etc.
 
 4.2 Dockerfile
-# Usa uma imagem leve do Python 3.9
+**Usa uma imagem leve do Python 3.9**
 FROM python:3.9-slim
 
-# Define o diretório de trabalho dentro do container
+**Define o diretório de trabalho dentro do container**
 WORKDIR /app
 
-# Copia o arquivo de dependências para o container
+**Copia o arquivo de dependências para o container**
 COPY requirements.txt .
 
 # Instala os pacotes necessários
@@ -335,7 +335,7 @@ COPY main.py .
 # Adiciona o diretório base ao PYTHONPATH
 ENV PYTHONPATH=/app
 
-# Executa o serviço com o Python
+## Executa o serviço com o Python
 CMD ["python", "main.py"]
 
 4.3 Criando e Subindo os Containers
@@ -413,7 +413,7 @@ ii)Ele integra RabbitMQ, MongoDB e OwnCloud para processamento eficiente.
 iii)A API apenas encaminha os arquivos e o pyService faz o trabalho pesado.
 
 
-# Estrutura do Projeto pyService
+## Estrutura do Projeto pyService
 
 1. .dockerignore
 
