@@ -6,7 +6,7 @@
 ### Diretórios e arquivos principais:
 A seguinte estrutura de diretórios e arquivos compõe o projeto pyService:
 
-pyService/  
+**pyService/**  
 ├── .dockerignore                   # Evita que arquivos desnecessários sejam enviados para o contexto da imagem  
 ├── .env                            # Arquivo de variáveis de ambiente  
 ├── .env.example.env                # Arquivo exemplo de variáveis de ambiente  
