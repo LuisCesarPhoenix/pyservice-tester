@@ -50,18 +50,19 @@ pyService/
 2.	📬 RabbitMQ:  
 	a.	Escuta a fila (pyservice_queue).  
 	b.	Entrega a mensagem para o pyService.  
-3.	🧠 pyService (Python):  
+3.	🧠 pyService (Python)  
 	Ao receber a mensagem:  
 		a.	Acessa o OwnCloud e pega o arquivo a ser tratado (do diretório /work/).  
 		b.	Higieniza e enriquece os dados:  
-			i.	Conecta no MongoDB remoto e busca/completa os dados.  
+		    .	Conecta no MongoDB remoto e busca/completa os dados.  
 		c.	Salva o arquivo finalizado no OwnCloud (diretório /finalizado/).  
 		d.	Envia uma mensagem de status para o Strapi, avisando que o processo foi concluído.  
   
 ## Visão Geral Detalhada:
 
 O pyService é um microsserviço em Python criado para automatizar o processamento inteligente de arquivos CSV em um fluxo completo 
-de:  
+de:    
+
 a)Integração com filas de mensagens (RabbitMQ): para saber quando um novo arquivo precisa ser processado.  
 b)Integração com OwnCloud: para acessar e armazenar arquivos no servidor remoto.  
 c)Conexão com MongoDB: para enriquecer os dados, consultando informações como CPF, telefone, e outros dados complementares.  
@@ -71,7 +72,8 @@ f)Retorno do arquivo tratado ao sistema OwnCloud, tudo de forma assíncrona e au
   
 ## Conclusão:
 
-O pyService funciona como um “cérebro de processamento” da aplicação, ele é a espinha dorsal de um sistema robusto. Ele automatiza toda a parte de higienização, enriquecimento e geração de relatórios, atuando como um serviço desacoplado que se comunica com:  
+O pyService funciona como um “cérebro de processamento” da aplicação, ele é a espinha dorsal de um sistema robusto. Ele automatiza toda a parte de higienização, enriquecimento e geração de relatórios, atuando como um serviço desacoplado que se comunica com:    
+
 i)RabbitMQ para comunicação assíncrona. 
 ii)MongoDB para enriquecimento de dados.  
 iii)OwnCloud para armazenamento e manipulação de arquivos.  
@@ -84,17 +86,17 @@ i)Quando a API principal (em Node.js) detecta que há um novo arquivo no OwnClou
 ii)O pyService está sempre escutando essa fila com um consumer.  
 iii)Assim que a mensagem chega, o serviço entra em ação e inicia o fluxo.  
 
-b) Baixa os arquivos do OwnCloud (work/)
-i)O pyService acessa o OwnCloud via WebDAV (implementado em owncloud_utils.py) e baixa o arquivo localizado na pasta work/.
-ii)O arquivo é salvo temporariamente na pasta storage/.
+b) Baixa os arquivos do OwnCloud (work/)  
+i)O pyService acessa o OwnCloud via WebDAV (implementado em owncloud_utils.py) e baixa o arquivo localizado na pasta work/.  
+ii)O arquivo é salvo temporariamente na pasta storage/.  
 
-c) Higieniza e enriquece os dados (consulta o MongoDB)
-Os dados do arquivo são lidos com Pandas.
+c) Higieniza e enriquece os dados (consulta o MongoDB)  
+Os dados do arquivo são lidos com Pandas.  
 
-A higienização ocorre linha por linha, aplicando:
-i).strip() em colunas textuais.
-ii)Remoção de colunas irrelevantes ou duplicadas.
-iii)Normalização de dados inconsistentes.
+A higienização ocorre linha por linha, aplicando:  
+i).strip() em colunas textuais.  
+ii)Remoção de colunas irrelevantes ou duplicadas.  
+iii)Normalização de dados inconsistentes.  
 
 Em seguida, o serviço realiza consultas no MongoDB:
 i)Por exemplo: pega um CPF da planilha, busca na coleção nova_credlinks por dados como telefone, nome, etc.
