@@ -19,27 +19,27 @@ A seguinte estrutura de diretórios e arquivos compõe o projeto pyService:
 ├── `requirements.txt`                # Dependências do Python  
 ├── `arquivos-para-consulta/` 		# Armazenar arquivos de referência, templates ou modelos para enriquecimento/higienização  
 ├── `src/`  
-│   ├── config/  
-│   │   ├── rabbitmq_config.py      # Configuração da conexão com RabbitMQ  
-│   │   ├── settings.py             # Configuração das variáveis de ambiente  
-│   ├── controllers/  
-│   │   ├── rabbitmq_controller.py  # Processamento de mensagens da fila  
-│   ├── models/  
-│   │   ├── data_schema.py          # Estrutura dos dados para enriquecimento  
-│   ├── routes/  
-│   ├── services/  
-│   │   ├── file_service.py         # Lógica de higienização e enriquecimento de dados  
-│   │   ├── rabbitmq_consumer.py    # Consumidor do RabbitMQ que escuta a fila  
-│   │   ├── report_service.py       # Geração de relatórios PDF e dashboards  
-│   ├── tests/  
-│   │   ├── send_test_message.py 	# Enviar mensagens simuladas para a fila RabbitMQ (teste de integração)  
-│   ├── utils/  
-│   │   ├── rabbitmq_utils.py       # Envio e recebimento de mensagens do RabbitMQ  
-│   │   ├── owncloud_utils.py       # Conexão e manipulação de arquivos no OwnCloud  
-│   │   ├── mongo_utils.py          # Conexão e consultas ao MongoDB  
-├── storage/                        # Diretório para armazenar arquivos temporários e processados  
-│   ├── work/                       # Arquivos aguardando processamento  
-│   ├── finalizado/                 # Arquivos processados  
+│   ├── `config/`  
+│   │   ├── `rabbitmq_config.py`      # Configuração da conexão com RabbitMQ  
+│   │   ├── `settings.py`             # Configuração das variáveis de ambiente  
+│   ├── `controllers/`  
+│   │   ├── `rabbitmq_controller.py`  # Processamento de mensagens da fila  
+│   ├── `models/`  
+│   │   ├── `data_schema.py`          # Estrutura dos dados para enriquecimento  
+│   ├── `routes/`  
+│   ├── `services/`  
+│   │   ├── `file_service.py`         # Lógica de higienização e enriquecimento de dados  
+│   │   ├── `rabbitmq_consumer.py`    # Consumidor do RabbitMQ que escuta a fila  
+│   │   ├── `report_service.py`       # Geração de relatórios PDF e dashboards  
+│   ├── `tests/`  
+│   │   ├── `send_test_message.py` 	# Enviar mensagens simuladas para a fila RabbitMQ (teste de integração)  
+│   ├── `utils/`  
+│   │   ├── `rabbitmq_utils.py`       # Envio e recebimento de mensagens do RabbitMQ  
+│   │   ├── `owncloud_utils.py`       # Conexão e manipulação de arquivos no OwnCloud  
+│   │   ├── `mongo_utils.py`          # Conexão e consultas ao MongoDB  
+├── `storage/`                        # Diretório para armazenar arquivos temporários e processados  
+│   ├── `work/`                       # Arquivos aguardando processamento  
+│   ├── `finalizado/`                 # Arquivos processados  
 ├──  
   
 ## 🧭 Fluxo Completo:
@@ -63,35 +63,35 @@ A seguinte estrutura de diretórios e arquivos compõe o projeto pyService:
 O pyService é um microsserviço em Python criado para automatizar o processamento inteligente de arquivos CSV em um fluxo completo 
 de:    
 
-a.  Integração com filas de mensagens (RabbitMQ): para saber quando um novo arquivo precisa ser processado.  
-b.  Integração com OwnCloud: para acessar e armazenar arquivos no servidor remoto.  
-c.  Conexão com MongoDB: para enriquecer os dados, consultando informações como CPF, telefone, e outros dados complementares.  
-d.  Análise e Higienização: limpeza de dados, remoção de duplicidades, normalização de colunas e mais.  
-e.  Geração de Relatórios Profissionais (CSV, XLSX e PDF): com dashboards e análises prontas para uso.  
-f.  Retorno do arquivo tratado ao sistema OwnCloud, tudo de forma assíncrona e automatizada.  
+1.  Integração com filas de mensagens (RabbitMQ): para saber quando um novo arquivo precisa ser processado.  
+2.  Integração com OwnCloud: para acessar e armazenar arquivos no servidor remoto.  
+3.  Conexão com MongoDB: para enriquecer os dados, consultando informações como CPF, telefone, e outros dados complementares.  
+4.  Análise e Higienização: limpeza de dados, remoção de duplicidades, normalização de colunas e mais.  
+5.  Geração de Relatórios Profissionais (CSV, XLSX e PDF): com dashboards e análises prontas para uso.  
+6.  Retorno do arquivo tratado ao sistema OwnCloud, tudo de forma assíncrona e automatizada.  
   
 ## Conclusão:
 
 O pyService funciona como um “cérebro de processamento” da aplicação, ele é a espinha dorsal de um sistema robusto. Ele automatiza toda a parte de higienização, enriquecimento e geração de relatórios, atuando como um serviço desacoplado que se comunica com:    
 
-i.  RabbitMQ para comunicação assíncrona.  
-ii. MongoDB para enriquecimento de dados.  
-iii.  OwnCloud para armazenamento e manipulação de arquivos.  
-iv. A API apenas intermedia, enquanto o pyService realiza todo o trabalho pesado.  
+1.  RabbitMQ para comunicação assíncrona.  
+2.  MongoDB para enriquecimento de dados.  
+3.  OwnCloud para armazenamento e manipulação de arquivos.  
+4.  A API apenas intermedia, enquanto o pyService realiza todo o trabalho pesado.  
   
 ### Fluxo de Funcionamento Detalhado:  
   
-a.  Recebe mensagens do RabbitMQ  
-i.  Quando a API principal (em Node.js) detecta que há um novo arquivo no OwnCloud, ela envia uma mensagem para o RabbitMQ com os metadados do arquivo (nome, caminho, tipo).  
-ii. O pyService está sempre escutando essa fila com um consumer.  
-iii.  Assim que a mensagem chega, o serviço entra em ação e inicia o fluxo.  
+1.  Recebe mensagens do RabbitMQ  
+  a.  Quando a API principal (em Node.js) detecta que há um novo arquivo no OwnCloud, ela envia uma mensagem para o RabbitMQ com os metadados do arquivo (nome, caminho, tipo).  
+  b.  O pyService está sempre escutando essa fila com um consumer.  
+  c.  Assim que a mensagem chega, o serviço entra em ação e inicia o fluxo.  
 
-b.  Baixa os arquivos do OwnCloud (work/)  
-i.  O pyService acessa o OwnCloud via WebDAV (implementado em owncloud_utils.py) e baixa o arquivo localizado na pasta work/.  
-ii. O arquivo é salvo temporariamente na pasta storage/.  
+2.  Baixa os arquivos do OwnCloud (work/)  
+  a.  O pyService acessa o OwnCloud via WebDAV (implementado em owncloud_utils.py) e baixa o arquivo localizado na pasta work/.  
+  b.  O arquivo é salvo temporariamente na pasta storage/.  
 
-c.  Higieniza e enriquece os dados (consulta o MongoDB)  
-Os dados do arquivo são lidos com Pandas.  
+3.  Higieniza e enriquece os dados (consulta o MongoDB)  
+  .   Os dados do arquivo são lidos com Pandas.  
 
 A higienização ocorre linha por linha, aplicando:  
 i).strip() em colunas textuais.  
@@ -217,9 +217,9 @@ sequenceDiagram
     pyService->>RabbitMQ: ACK (confirmação de processamento)
 
 
-2. Dependências do pyService
+2. Dependências do pyService  
 
-# Dependências principais
+# Dependências principais  
 pika==1.3.2                    # Conexão com RabbitMQ
 pandas==2.1.4                  # Manipulação e análise de dados
 pymongo==4.5.0                 # Conexão com MongoDB
@@ -313,18 +313,18 @@ networks:
     external: true
     # Usa a rede externa pyservice_default para permitir a comunicação com RabbitMQ, MongoDB, etc.
 
-4.2 Dockerfile
-**Usa uma imagem leve do Python 3.9**
-FROM python:3.9-slim
+4.2 Dockerfile  
+**Usa uma imagem leve do Python 3.9**  
+FROM python:3.9-slim  
+  
+**Define o diretório de trabalho dentro do container**  
+WORKDIR /app  
+ 
+**Copia o arquivo de dependências para o container**  
+COPY requirements.txt   
 
-**Define o diretório de trabalho dentro do container**
-WORKDIR /app
-
-**Copia o arquivo de dependências para o container**
-COPY requirements.txt .
-
-# Instala os pacotes necessários
-RUN pip install --no-cache-dir -r requirements.txt
+# Instala os pacotes necessários  
+RUN pip install --no-cache-dir -r requirements.txt  
 
 # Copia o código-fonte (pasta src/) para dentro do container
 COPY ./src ./src
