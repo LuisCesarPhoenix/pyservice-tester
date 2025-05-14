@@ -6,19 +6,19 @@
 ### Diretórios e arquivos principais:
 A seguinte estrutura de diretórios e arquivos compõe o projeto pyService:
 
-**pyService/**  
-├── .dockerignore                   # Evita que arquivos desnecessários sejam enviados para o contexto da imagem  
-├── .env                            # Arquivo de variáveis de ambiente  
-├── .env.example.env                # Arquivo exemplo de variáveis de ambiente  
-├── .gitignore                      # Informar ao Git quais arquivos ou diretórios devem ser ignorados (como .env, por exemplo)  
-├── anotacoes_pyservice				# Contém anotações do desenvolvedor com ideias, rascunhos, fluxos de trabalho e observações  
-├── docker-compose.yml              # Arquivo de configuração do Docker Compose  
-├── dockerfile                      # Dockerfile para containerização  
-├── main.py                         # Arquivo principal do serviço  
-├── README.md                       # Documentação do projeto  
-├── requirements.txt                # Dependências do Python  
-├── arquivos-para-consulta/ 		# Armazenar arquivos de referência, templates ou modelos para enriquecimento/higienização  
-├── src/  
+`pyService/`  
+├── `.dockerignore`                   # Evita que arquivos desnecessários sejam enviados para o contexto da imagem  
+├── `.env`                            # Arquivo de variáveis de ambiente  
+├── `.env.example.env`                # Arquivo exemplo de variáveis de ambiente  
+├── `.gitignore`                      # Informar ao Git quais arquivos ou diretórios devem ser ignorados (como .env, por exemplo)  
+├── `anotacoes_pyservice`				# Contém anotações do desenvolvedor com ideias, rascunhos, fluxos de trabalho e observações  
+├── `docker-compose.yml`              # Arquivo de configuração do Docker Compose  
+├── `dockerfile`                      # Dockerfile para containerização  
+├── `main.py`                         # Arquivo principal do serviço  
+├── `README.md`                       # Documentação do projeto  
+├── `requirements.txt`                # Dependências do Python  
+├── `arquivos-para-consulta/` 		# Armazenar arquivos de referência, templates ou modelos para enriquecimento/higienização  
+├── `src/`  
 │   ├── config/  
 │   │   ├── rabbitmq_config.py      # Configuração da conexão com RabbitMQ  
 │   │   ├── settings.py             # Configuração das variáveis de ambiente  
