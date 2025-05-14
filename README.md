@@ -63,34 +63,34 @@ pyService/
 O pyService é um microsserviço em Python criado para automatizar o processamento inteligente de arquivos CSV em um fluxo completo 
 de:    
 
-a)Integração com filas de mensagens (RabbitMQ): para saber quando um novo arquivo precisa ser processado.  
-b)Integração com OwnCloud: para acessar e armazenar arquivos no servidor remoto.  
-c)Conexão com MongoDB: para enriquecer os dados, consultando informações como CPF, telefone, e outros dados complementares.  
-d)Análise e Higienização: limpeza de dados, remoção de duplicidades, normalização de colunas e mais.  
-e)Geração de Relatórios Profissionais (CSV, XLSX e PDF): com dashboards e análises prontas para uso.  
-f)Retorno do arquivo tratado ao sistema OwnCloud, tudo de forma assíncrona e automatizada.  
+a.  Integração com filas de mensagens (RabbitMQ): para saber quando um novo arquivo precisa ser processado.  
+b.  Integração com OwnCloud: para acessar e armazenar arquivos no servidor remoto.  
+c.  Conexão com MongoDB: para enriquecer os dados, consultando informações como CPF, telefone, e outros dados complementares.  
+d.  Análise e Higienização: limpeza de dados, remoção de duplicidades, normalização de colunas e mais.  
+e.  Geração de Relatórios Profissionais (CSV, XLSX e PDF): com dashboards e análises prontas para uso.  
+f.  Retorno do arquivo tratado ao sistema OwnCloud, tudo de forma assíncrona e automatizada.  
   
 ## Conclusão:
 
 O pyService funciona como um “cérebro de processamento” da aplicação, ele é a espinha dorsal de um sistema robusto. Ele automatiza toda a parte de higienização, enriquecimento e geração de relatórios, atuando como um serviço desacoplado que se comunica com:    
 
-i)RabbitMQ para comunicação assíncrona.  
-ii)MongoDB para enriquecimento de dados.  
-iii)OwnCloud para armazenamento e manipulação de arquivos.  
-iv)A API apenas intermedia, enquanto o pyService realiza todo o trabalho pesado.  
+i.  RabbitMQ para comunicação assíncrona.  
+ii. MongoDB para enriquecimento de dados.  
+iii.  OwnCloud para armazenamento e manipulação de arquivos.  
+iv. A API apenas intermedia, enquanto o pyService realiza todo o trabalho pesado.  
   
 ### Fluxo de Funcionamento Detalhado:  
   
-a) Recebe mensagens do RabbitMQ  
-i)Quando a API principal (em Node.js) detecta que há um novo arquivo no OwnCloud, ela envia uma mensagem para o RabbitMQ com os metadados do arquivo (nome, caminho, tipo).  
-ii)O pyService está sempre escutando essa fila com um consumer.  
-iii)Assim que a mensagem chega, o serviço entra em ação e inicia o fluxo.  
+a.  Recebe mensagens do RabbitMQ  
+i.  Quando a API principal (em Node.js) detecta que há um novo arquivo no OwnCloud, ela envia uma mensagem para o RabbitMQ com os metadados do arquivo (nome, caminho, tipo).  
+ii. O pyService está sempre escutando essa fila com um consumer.  
+iii.  Assim que a mensagem chega, o serviço entra em ação e inicia o fluxo.  
 
-b) Baixa os arquivos do OwnCloud (work/)  
-i)O pyService acessa o OwnCloud via WebDAV (implementado em owncloud_utils.py) e baixa o arquivo localizado na pasta work/.  
-ii)O arquivo é salvo temporariamente na pasta storage/.  
+b.  Baixa os arquivos do OwnCloud (work/)  
+i.  O pyService acessa o OwnCloud via WebDAV (implementado em owncloud_utils.py) e baixa o arquivo localizado na pasta work/.  
+ii. O arquivo é salvo temporariamente na pasta storage/.  
 
-c) Higieniza e enriquece os dados (consulta o MongoDB)  
+c.  Higieniza e enriquece os dados (consulta o MongoDB)  
 Os dados do arquivo são lidos com Pandas.  
 
 A higienização ocorre linha por linha, aplicando:  
