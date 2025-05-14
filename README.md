@@ -54,7 +54,7 @@ pyService/
 	Ao receber a mensagem:  
 		a.	Acessa o OwnCloud e pega o arquivo a ser tratado (do diretório /work/).  
 		b.	Higieniza e enriquece os dados:  
-		    .	Conecta no MongoDB remoto e busca/completa os dados.  
+		-   Conecta no MongoDB remoto e busca/completa os dados.  
 		c.	Salva o arquivo finalizado no OwnCloud (diretório /finalizado/).  
 		d.	Envia uma mensagem de status para o Strapi, avisando que o processo foi concluído.  
   
@@ -74,12 +74,12 @@ f)Retorno do arquivo tratado ao sistema OwnCloud, tudo de forma assíncrona e au
 
 O pyService funciona como um “cérebro de processamento” da aplicação, ele é a espinha dorsal de um sistema robusto. Ele automatiza toda a parte de higienização, enriquecimento e geração de relatórios, atuando como um serviço desacoplado que se comunica com:    
 
-i)RabbitMQ para comunicação assíncrona. 
+i)RabbitMQ para comunicação assíncrona.  
 ii)MongoDB para enriquecimento de dados.  
 iii)OwnCloud para armazenamento e manipulação de arquivos.  
 iv)A API apenas intermedia, enquanto o pyService realiza todo o trabalho pesado.  
   
-Fluxo de Funcionamento Detalhado:  
+### Fluxo de Funcionamento Detalhado:  
   
 a) Recebe mensagens do RabbitMQ  
 i)Quando a API principal (em Node.js) detecta que há um novo arquivo no OwnCloud, ela envia uma mensagem para o RabbitMQ com os metadados do arquivo (nome, caminho, tipo).  
