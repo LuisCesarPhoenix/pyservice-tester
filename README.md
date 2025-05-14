@@ -44,27 +44,27 @@ pyService/
   
 ## 🧭 Fluxo Completo:
 
-1.	🌐 API (Node.js):
-	a.	Recebe uma requisição para processar um arquivo.
-	b.	Envia uma mensagem para o RabbitMQ com os  metadados ou caminho do arquivo.
-2.	📬 RabbitMQ:
-	a.	Escuta a fila (pyservice_queue).
-	b.	Entrega a mensagem para o pyService.
-3.	🧠 pyService (Python):
-	Ao receber a mensagem:
-		a.	Acessa o OwnCloud e pega o arquivo a ser tratado (do diretório /work/).
-		b.	Higieniza e enriquece os dados:
-			i.	Conecta no MongoDB remoto e busca/completa os dados.
-		c.	Salva o arquivo finalizado no OwnCloud (diretório /finalizado/).
-		d.	Envia uma mensagem de status para o Strapi, avisando que o processo foi concluído.
-
+1.	🌐 API (Node.js):  
+	a.	Recebe uma requisição para processar um arquivo.  
+	b.	Envia uma mensagem para o RabbitMQ com os  metadados ou caminho do arquivo.  
+2.	📬 RabbitMQ:  
+	a.	Escuta a fila (pyservice_queue).  
+	b.	Entrega a mensagem para o pyService.  
+3.	🧠 pyService (Python):  
+	Ao receber a mensagem:  
+		a.	Acessa o OwnCloud e pega o arquivo a ser tratado (do diretório /work/).  
+		b.	Higieniza e enriquece os dados:  
+			i.	Conecta no MongoDB remoto e busca/completa os dados.  
+		c.	Salva o arquivo finalizado no OwnCloud (diretório /finalizado/).  
+		d.	Envia uma mensagem de status para o Strapi, avisando que o processo foi concluído.  
+  
 ## Visão Geral Detalhada:
 
 O pyService é um microsserviço em Python criado para automatizar o processamento inteligente de arquivos CSV em um fluxo completo 
 de:  
 a)Integração com filas de mensagens (RabbitMQ): para saber quando um novo arquivo precisa ser processado.  
 b)Integração com OwnCloud: para acessar e armazenar arquivos no servidor remoto.  
-c)Conexão com MongoDB: para enriquecer os dados, consultando informações como CPF, telefone, e outros dados complementares. 
+c)Conexão com MongoDB: para enriquecer os dados, consultando informações como CPF, telefone, e outros dados complementares.  
 d)Análise e Higienização: limpeza de dados, remoção de duplicidades, normalização de colunas e mais.  
 e)Geração de Relatórios Profissionais (CSV, XLSX e PDF): com dashboards e análises prontas para uso.  
 f)Retorno do arquivo tratado ao sistema OwnCloud, tudo de forma assíncrona e automatizada.  
